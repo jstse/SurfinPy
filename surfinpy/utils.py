@@ -409,3 +409,8 @@ def transform_numbers(Z, ticks):
             if Z[j] == ticks[i]:
                 Z[j] = y[i]
     return Z
+def read_qha(File):
+    """
+    docstring
+    """
+    

@@ -1,5 +1,6 @@
 import numpy as np
 from surfinpy import vibrational_data as vd
+from surfinpy import qha_data as qha
 
 class ReferenceDataSet():
     """Object that contains information about the reference DFT calculation
@@ -29,7 +30,7 @@ class ReferenceDataSet():
     """
     def __init__(self, cation, anion, energy, funits, color=None,
                  file=None, entropy=False, temp_range=None,
-                 zpe=False):
+                 zpe=False, qha=False):
         self.cation = cation
         self.anion = anion
         self.energy = energy
@@ -54,6 +55,12 @@ class ReferenceDataSet():
                                     self.temp_range[1], 
                                     1, dtype="float")
             self.zpe = vd.vib_calc(self.file, self.temp_r)[0]
+            self.temperature = self.temp_r[0]
+        if self.qha:
+            self.temp_r = np.arange(self.temp_range[0],
+                                    self.temp_range[1],
+                                    1, dtype="float")
+            self.qha = qha.qha_calc(self.file, self.temp_r)[0]
             self.temperature = self.temp_r[0]
 
 class DataSet():
@@ -92,7 +99,7 @@ class DataSet():
     """
     def __init__(self, cation, x, y, energy, label, color=None, funits=0, 
                  file=None, area=None, nspecies=None, entropy=False,
-                 temp_range=False, zpe=False):
+                 temp_range=False, zpe=False, qha=False):
         self.cation = cation
         self.x = x
         self.y = y
@@ -120,4 +127,10 @@ class DataSet():
                                     self.temp_range[1], 
                                     1, dtype="float")
             self.zpe = vd.vib_calc(self.file, self.temp_r)[0]
+            self.temperature = self.temp_r[0]
+        if self.qha:
+            self.temp_r = np.arange(self.temp_range[0],
+                                    self.temp_range[1],
+                                    1, dtype="float")
+            self.qha = qha.qha_calc(self.file, self.temp_r)
             self.temperature = self.temp_r[0]
